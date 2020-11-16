@@ -42,12 +42,13 @@ export default class App extends Component {
     }
 
     this.setState({ cart: newCart });
-    alertify.success(product.productName + "is added to your cart!");
+    alertify.success(product.productName + " is added to your cart!");
   };
 
   removeFromCart = (product) => {
     let newCart = this.state.cart.filter((c) => c.product.id !== product.id);
     this.setState({ cart: newCart });
+    alertify.error(product.productName + " is removed from your cart!");
   };
 
   render() {
@@ -80,7 +81,14 @@ export default class App extends Component {
                     />
                   )}
                 />
-                <Route exact path="/cart" component={CartList} />
+                <Route exact path="/cart" render={(props) => (
+                    <CartList
+                      {...props}
+                      cart={this.state.cart}
+                      removeFromCart={this.removeFromCart}
+
+                    />
+                  )} />
                 <Route  component={NotFound} />
               </Switch>
             </Col>
